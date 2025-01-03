@@ -16,7 +16,6 @@ export const getDocumentById = async (collectionName, id) => {
     if (docSnap.exists()) {
         return docSnap.data()["data"];
     } else {
-        console.log("No such document!");
         return null;
     }
 };
