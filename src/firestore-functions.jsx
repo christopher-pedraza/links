@@ -10,13 +10,13 @@ import {
 } from "firebase/firestore";
 
 // Function to retrieve a specific document by ID
-export const getDocumentById = async (collectionName, id) => {
+export const getDocumentLinks = async (collectionName, id) => {
     const docRef = doc(db, collectionName, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-        return docSnap.data()["data"];
+        return docSnap.data()["links"];
     } else {
-        return null;
+        return [];
     }
 };
 
@@ -24,7 +24,7 @@ export const getDocumentById = async (collectionName, id) => {
 export const createDocumentWithArray = async (collectionName, arrayData) => {
     try {
         const docRef = await addDoc(collection(db, collectionName), {
-            data: arrayData,
+            links: arrayData,
         });
         console.log("Document written with ID: ", docRef.id);
     } catch (e) {

@@ -1,17 +1,17 @@
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 
-import { getDocumentById } from "../firestore-functions";
+import { getDocumentLinks } from "../firestore-functions";
 
 import { useEffect, useState } from "react";
-import { use } from "react";
 
 export default function CustomLink() {
+    let navigate = useNavigate();
     let params = useParams();
     const [doc, setDoc] = useState(null);
 
     useEffect(() => {
         if (params.id) {
-            getDocumentById("links", params.id).then((doc) => {
+            getDocumentLinks("links", params.id).then((doc) => {
                 setDoc(doc);
             });
         }
@@ -25,10 +25,20 @@ export default function CustomLink() {
         return <div>Loading... {params.id}</div>;
     }
 
+    if (doc.length === 0) {
+        navigate("/shareable-links");
+    }
+
     return (
         <div>
             <h1>Custom Link</h1>
-            <p>Here is the custom link: {params.id}</p>
+            {doc.map((link) => (
+                <div key={link}>
+                    <a href={link} key={link}>
+                        {link}
+                    </a>
+                </div>
+            ))}
         </div>
     );
 }
