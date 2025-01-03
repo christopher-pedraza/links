@@ -1,5 +1,13 @@
 import { db } from "./firebase-config";
-import { doc, getDoc, setDoc, collection, addDoc } from "firebase/firestore";
+import {
+    doc,
+    getDoc,
+    setDoc,
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+} from "firebase/firestore";
 
 // Function to retrieve a specific document by ID
 export const getDocumentById = async (collectionName, id) => {
@@ -25,10 +33,21 @@ export const createDocumentWithArray = async (collectionName, arrayData) => {
     }
 };
 
+// Function to delete a specific document by ID
+export const deleteDocument = async (collectionName, id) => {
+    const docRef = doc(db, collectionName, id);
+    try {
+        await deleteDoc(docRef);
+        console.log("Document successfully deleted!");
+    } catch (e) {
+        console.error("Error removing document: ", e);
+    }
+};
+
 // Function to delete all the documents in a collection
 export const deleteAllDocuments = async (collectionName) => {
     const collectionRef = collection(db, collectionName);
-    const snapshot = await collectionRef.get();
+    const snapshot = await getDocs(collectionRef);
     snapshot.forEach((doc) => {
         deleteDocument(collectionName, doc.id);
     });
