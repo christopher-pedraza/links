@@ -26,7 +26,7 @@ export default function CustomLink() {
     }
 
     if (doc.length === 0) {
-        navigate("/shareable-links");
+        navigate("/links");
     }
 
     return (
