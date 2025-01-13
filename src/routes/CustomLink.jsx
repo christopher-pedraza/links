@@ -4,6 +4,8 @@ import { getDocumentLinks } from "../firestore-functions";
 
 import { useEffect, useState } from "react";
 
+import "ldrs/bouncy";
+
 export default function CustomLink() {
     let navigate = useNavigate();
     let params = useParams();
@@ -22,11 +24,20 @@ export default function CustomLink() {
     }, [doc]);
 
     if (!doc) {
-        return <div>Loading... {params.id}</div>;
+        return (
+            <div className="h-screen w-screen flex items-center justify-center">
+                <l-bouncy size="90" speed="1.75" color="#4287f5"></l-bouncy>
+            </div>
+        );
     }
 
     if (doc.length === 0) {
         navigate("/links");
+        return (
+            <div className="h-screen w-screen flex items-center justify-center">
+                <l-bouncy size="90" speed="1.75" color="#4287f5"></l-bouncy>
+            </div>
+        );
     }
 
     return (
