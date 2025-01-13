@@ -1,29 +1,11 @@
-import { Card, Form, Input, Button } from "@nextui-org/react";
-import { useState } from "react";
-
-export const CrossIcon = () => {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="icon icon-tabler icons-tabler-outline icon-tabler-x"
-        >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M18 6l-12 12" />
-            <path d="M6 6l12 12" />
-        </svg>
-    );
-};
+import { Card, Form, Input, Button, Divider } from "@nextui-org/react";
+import { useState, useRef } from "react";
+import { CrossIcon, ShareIcon } from "@/assets/Icons";
 
 export default function Home() {
     const [addedLinks, setAddedLinks] = useState([]);
+    const [value, setValue] = useState("");
+    const inputRef = useRef(null);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -34,6 +16,8 @@ export default function Home() {
             return;
         }
         setAddedLinks([...addedLinks, formData]);
+        setValue("");
+        inputRef.current.focus();
     };
 
     const removeLink = (index) => {
@@ -49,23 +33,34 @@ export default function Home() {
                     onSubmit={onSubmit}
                 >
                     <Input
+                        ref={inputRef}
                         label="URL"
                         labelPlacement="inside"
                         name="url"
                         placeholder="https://"
                         size="lg"
+                        value={value}
+                        onValueChange={setValue}
                     />
                     <Button size="lg" type="submit" variant="bordered">
                         Add link
                     </Button>
+                    <Divider orientation="vertical" />
+                    <Button
+                        isIconOnly
+                        color="primary"
+                        onPress={() => removeLink(index)}
+                    >
+                        <ShareIcon />
+                    </Button>
                 </Form>
             </Card>
             {addedLinks.length !== 0 && (
-                <Card className="p-2 pl-4 pr-4 w-3/4 flex items-center">
+                <Card className="p-2 pl-4 pr-4 w-3/4 flex items-center overflow-y-auto">
                     {addedLinks.map((link, index) => (
                         <Card
                             key={index}
-                            className="p-4 w-full flex items-center justify-between flex-row mb-2 mt-2"
+                            className="p-4 w-full flex items-center justify-between flex-row mb-2 mt-2 min-h-24"
                         >
                             <a
                                 href={link}
