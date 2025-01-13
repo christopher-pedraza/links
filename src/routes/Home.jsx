@@ -1,9 +1,8 @@
 import { Card, Form, Input, Button, Divider } from "@nextui-org/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { CrossIcon, ShareIcon } from "@/assets/Icons";
 import { createDocumentWithArray } from "@/firestore-functions";
-import { useParams, useNavigate } from "react-router";
-import { use } from "react";
+import { useNavigate } from "react-router";
 
 export default function Home() {
     const [addedLinks, setAddedLinks] = useState([]);

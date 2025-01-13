@@ -4,26 +4,28 @@ import { getDocumentLinks } from "../firestore-functions";
 
 import { useEffect, useState } from "react";
 
+import { Card } from "@nextui-org/react";
+
 import "ldrs/bouncy";
 
 export default function CustomLink() {
     let navigate = useNavigate();
     let params = useParams();
-    const [doc, setDoc] = useState(null);
+    const [links, setLinks] = useState(null);
 
     useEffect(() => {
         if (params.id) {
             getDocumentLinks("links", params.id).then((doc) => {
-                setDoc(doc);
+                setLinks(doc);
             });
         }
     }, [params.id]);
 
     useEffect(() => {
-        console.log(doc);
-    }, [doc]);
+        console.log(links);
+    }, [links]);
 
-    if (!doc) {
+    if (!links) {
         return (
             <div className="h-screen w-screen flex items-center justify-center">
                 <l-bouncy size="90" speed="1.75" color="#4287f5"></l-bouncy>
@@ -31,7 +33,7 @@ export default function CustomLink() {
         );
     }
 
-    if (doc.length === 0) {
+    if (links.length === 0) {
         navigate("/links");
         return (
             <div className="h-screen w-screen flex items-center justify-center">
@@ -41,15 +43,24 @@ export default function CustomLink() {
     }
 
     return (
-        <div>
-            <h1>Custom Link</h1>
-            {doc.map((link) => (
-                <div key={link}>
-                    <a href={link} key={link}>
-                        {link}
-                    </a>
-                </div>
-            ))}
+        <div className="flex items-center h-screen w-screen p-8 flex-col">
+            <Card className="p-2 pl-4 pr-4 w-3/4 flex items-center overflow-y-auto">
+                {links.map((link, index) => (
+                    <Card
+                        key={index}
+                        className="p-4 w-full flex items-center justify-between flex-row mb-2 mt-2 min-h-24"
+                    >
+                        <a
+                            href={link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex flex-1 text-lg h-full items-center"
+                        >
+                            {link}
+                        </a>
+                    </Card>
+                ))}
+            </Card>
         </div>
     );
 }
