@@ -7,7 +7,7 @@ import Root from "./routes/Root";
 function App() {
     return (
         <Routes>
-            <Route path="links/#" element={<Root />}>
+            <Route path="/" element={<Root />}>
                 <Route index element={<Home />} />
                 <Route path=":id" element={<CustomLink />} />
             </Route>

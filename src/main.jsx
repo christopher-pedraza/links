@@ -1,15 +1,15 @@
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router";
+import { BrowserRouter, HashRouter } from "react-router";
 import App from "./App.jsx";
 import "./index.css";
 import { NextUIProvider } from "@nextui-org/react";
 
 createRoot(document.getElementById("root")).render(
-    <BrowserRouter>
+    <HashRouter>
         <NextUIProvider>
             <main className="dark text-foreground bg-background">
                 <App />
             </main>
         </NextUIProvider>
-    </BrowserRouter>
+    </HashRouter>
 );
