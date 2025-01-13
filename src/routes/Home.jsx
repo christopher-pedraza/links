@@ -39,7 +39,7 @@ export default function Home() {
                 setIsSharing(false);
                 return;
             }
-            navigate(`/links/${id}`);
+            navigate(`/#/links/${id}`);
         });
     };
 
