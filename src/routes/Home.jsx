@@ -1,11 +1,18 @@
 import { Card, Form, Input, Button, Divider } from "@nextui-org/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CrossIcon, ShareIcon } from "@/assets/Icons";
+import { createDocumentWithArray } from "@/firestore-functions";
+import { useParams, useNavigate } from "react-router";
+import { use } from "react";
 
 export default function Home() {
     const [addedLinks, setAddedLinks] = useState([]);
     const [value, setValue] = useState("");
+    const [isSharing, setIsSharing] = useState(false);
+
     const inputRef = useRef(null);
+
+    let navigate = useNavigate();
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -23,6 +30,18 @@ export default function Home() {
     const removeLink = (index) => {
         const newLinks = addedLinks.filter((_, i) => i !== index);
         setAddedLinks(newLinks);
+    };
+
+    const shareLinks = async () => {
+        setIsSharing(true);
+        createDocumentWithArray("links", addedLinks).then((id) => {
+            if (!id) {
+                // TODO: Show error message to the user
+                setIsSharing(false);
+                return;
+            }
+            navigate(`/links/${id}`);
+        });
     };
 
     return (
@@ -49,7 +68,8 @@ export default function Home() {
                     <Button
                         isIconOnly
                         color="primary"
-                        onPress={() => removeLink(index)}
+                        onPress={shareLinks}
+                        isLoading={isSharing}
                     >
                         <ShareIcon />
                     </Button>

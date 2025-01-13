@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 
 // Function to retrieve a specific document by ID
-export const getDocumentLinks = async (collectionName, id) => {
+export const getDocumentLinks = async (collectionName = "links", id) => {
     const docRef = doc(db, collectionName, id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -21,19 +21,22 @@ export const getDocumentLinks = async (collectionName, id) => {
 };
 
 // Function to create a document with a provided array of strings
-export const createDocumentWithArray = async (collectionName, arrayData) => {
+export const createDocumentWithArray = async (
+    collectionName = "links",
+    arrayData
+) => {
     try {
         const docRef = await addDoc(collection(db, collectionName), {
             links: arrayData,
         });
-        console.log("Document written with ID: ", docRef.id);
+        return docRef.id;
     } catch (e) {
-        console.error("Error adding document: ", e);
+        return null;
     }
 };
 
 // Function to delete a specific document by ID
-export const deleteDocument = async (collectionName, id) => {
+export const deleteDocument = async (collectionName = "links", id) => {
     const docRef = doc(db, collectionName, id);
     try {
         await deleteDoc(docRef);
@@ -44,7 +47,7 @@ export const deleteDocument = async (collectionName, id) => {
 };
 
 // Function to delete all the documents in a collection
-export const deleteAllDocuments = async (collectionName) => {
+export const deleteAllDocuments = async (collectionName = "links") => {
     const collectionRef = collection(db, collectionName);
     const snapshot = await getDocs(collectionRef);
     snapshot.forEach((doc) => {
