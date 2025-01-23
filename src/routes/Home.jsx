@@ -4,6 +4,7 @@ import { CrossIcon, ShareIcon } from "@/assets/Icons";
 import { createDocument, checkIfNameAvailable } from "@/firestore-functions";
 import { useNavigate } from "react-router";
 import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 export default function Home() {
     const [addedLinks, setAddedLinks] = useState([]);
@@ -191,8 +192,16 @@ export default function Home() {
                 open={open}
                 autoHideDuration={errorDuration}
                 onClose={handleClose}
-                message={errorMessage}
-            />
+            >
+                <Alert
+                    variant="filled"
+                    sx={{ width: "100%" }}
+                    severity="error"
+                    onClose={handleClose}
+                >
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
