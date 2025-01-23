@@ -1,4 +1,4 @@
-import { Card, Form, Input, Button, Divider } from "@nextui-org/react";
+import { Card, Form, Input, Button, Divider } from "@heroui/react";
 import { useState, useRef } from "react";
 import { CrossIcon, ShareIcon } from "@/assets/Icons";
 import { createDocument, checkIfNameAvailable } from "@/firestore-functions";

@@ -4,7 +4,7 @@ import { getLinksByName } from "../firestore-functions";
 
 import { useEffect, useState } from "react";
 
-import { Card } from "@nextui-org/react";
+import { Card } from "@heroui/react";
 
 import "ldrs/bouncy";
 
