@@ -53,7 +53,7 @@ This project is a simple and efficient web application that allows users to comp
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/your-repo/issues) or open a pull request.
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/christopher-pedraza/links/issues) or open a [pull request](https://github.com/christopher-pedraza/links/pulls).
 
 ## License
 

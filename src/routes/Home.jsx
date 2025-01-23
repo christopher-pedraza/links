@@ -76,10 +76,10 @@ export default function Home() {
 
     const sanitizeName = (name) => {
         // Sanitize name to be url friendly
-        setName(name.replace(/[^a-zA-Z0-9]/g, "").toLowerCase());
+        setName(name.replace(/[^a-zA-Z0-9]/g, ""));
     };
 
-    const showErrorMessage = (message, duration = 3000) => {
+    const showErrorMessage = (message, duration = 6000) => {
         setErrorMessage(message);
         setErrorDuration(duration);
         setOpen(true);
