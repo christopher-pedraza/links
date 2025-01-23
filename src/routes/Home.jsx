@@ -3,12 +3,18 @@ import { useState, useRef } from "react";
 import { CrossIcon, ShareIcon } from "@/assets/Icons";
 import { createDocument, checkIfNameAvailable } from "@/firestore-functions";
 import { useNavigate } from "react-router";
+import Snackbar from "@mui/material/Snackbar";
 
 export default function Home() {
     const [addedLinks, setAddedLinks] = useState([]);
     const [name, setName] = useState("");
     const [url, setURL] = useState("");
     const [isSharing, setIsSharing] = useState(false);
+
+    // Error messages
+    const [open, setOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [errorDuration, setErrorDuration] = useState(6000);
 
     const inputRef = useRef(null);
 
@@ -32,35 +38,73 @@ export default function Home() {
         setAddedLinks(newLinks);
     };
 
+    const uploadDocument = async (name) => {
+        sanitizeName(name);
+        createDocument("links", name, addedLinks).then((id) => {
+            if (!id) {
+                showErrorMessage("An error occurred while sharing the links.");
+                setIsSharing(false);
+                return;
+            }
+            navigate(`/${name}`);
+        });
+    };
+
     const shareLinks = async () => {
         setIsSharing(true);
         if (addedLinks.length === 0) {
+            showErrorMessage("Please add at least one link to share.");
             setIsSharing(false);
             return;
         }
-        if (!name) {
-            setIsSharing(false);
-            return;
-        }
-        const isAvailable = await checkIfNameAvailable("links", name);
-        if (!isAvailable) {
-            setIsSharing(false);
-            return;
-        } else {
-            createDocument("links", name, addedLinks).then((id) => {
-                if (!id) {
-                    // TODO: Show error message to the user
+        if (name) {
+            checkIfNameAvailable("links", name).then((isAvailable) => {
+                if (!isAvailable) {
+                    showErrorMessage("Name is not available.");
                     setIsSharing(false);
                     return;
+                } else {
+                    uploadDocument(name);
                 }
-                navigate(`/${name}`);
             });
+        } else {
+            const generatedName = generateValidName();
+            uploadDocument(generatedName);
         }
     };
 
     const sanitizeName = (name) => {
         // Sanitize name to be url friendly
         setName(name.replace(/[^a-zA-Z0-9]/g, "").toLowerCase());
+    };
+
+    const showErrorMessage = (message, duration = 3000) => {
+        setErrorMessage(message);
+        setErrorDuration(duration);
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setOpen(false);
+    };
+
+    const generateValidName = () => {
+        let name = "";
+        const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (let i = 0; i < 5; i++) {
+            name += characters.charAt(
+                Math.floor(Math.random() * characters.length)
+            );
+        }
+        if (checkIfNameAvailable("links", name)) {
+            return name;
+        } else {
+            return generateValidName();
+        }
     };
 
     return (
@@ -143,6 +187,12 @@ export default function Home() {
                     ))}
                 </Card>
             )}
+            <Snackbar
+                open={open}
+                autoHideDuration={errorDuration}
+                onClose={handleClose}
+                message={errorMessage}
+            />
         </div>
     );
 }
