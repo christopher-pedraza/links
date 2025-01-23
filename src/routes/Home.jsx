@@ -1,7 +1,7 @@
 import { Card, Form, Input, Button, Divider } from "@nextui-org/react";
 import { useState, useRef } from "react";
 import { CrossIcon, ShareIcon } from "@/assets/Icons";
-import { createDocumentWithArray } from "@/firestore-functions";
+import { createDocument } from "@/firestore-functions";
 import { useNavigate } from "react-router";
 
 export default function Home() {
@@ -33,7 +33,7 @@ export default function Home() {
 
     const shareLinks = async () => {
         setIsSharing(true);
-        createDocumentWithArray("links", addedLinks).then((id) => {
+        createDocument("links", "random name", addedLinks).then((id) => {
             if (!id) {
                 // TODO: Show error message to the user
                 setIsSharing(false);
@@ -46,32 +46,38 @@ export default function Home() {
     return (
         <div className="flex items-center h-screen w-screen p-8 flex-col">
             <Card className="p-4 h-36 sm:h-24 w-3/4 flex justify-center items-center mb-8">
-                <Form
-                    className="w-full flex flex-col sm:flex-row items-center"
-                    onSubmit={onSubmit}
-                >
-                    <Input
-                        ref={inputRef}
-                        label="URL"
-                        labelPlacement="inside"
-                        name="url"
-                        placeholder="https://"
-                        size="lg"
-                        value={value}
-                        onValueChange={setValue}
-                    />
-                    <Button size="lg" type="submit" variant="bordered">
-                        Add link
-                    </Button>
-                    <Divider orientation="vertical" />
-                    <Button
-                        isIconOnly
-                        color="primary"
-                        onPress={shareLinks}
-                        isLoading={isSharing}
-                    >
-                        <ShareIcon />
-                    </Button>
+                <Form className="w-full" onSubmit={onSubmit}>
+                    <div className="w-full flex flex-col sm:flex-row items-center">
+                        <Input
+                            ref={inputRef}
+                            label="URL"
+                            labelPlacement="inside"
+                            name="url"
+                            placeholder="https://"
+                            size="lg"
+                            value={value}
+                            onValueChange={setValue}
+                        />
+                        <div className="flex flex-row ml-0 sm:ml-2 mt-2 sm:mt-0 justify-center items-center">
+                            <Button
+                                size="lg"
+                                type="submit"
+                                variant="bordered"
+                                className="mr-2"
+                            >
+                                Add link
+                            </Button>
+                            <Divider orientation="vertical" />
+                            <Button
+                                isIconOnly
+                                color="primary"
+                                onPress={shareLinks}
+                                isLoading={isSharing}
+                            >
+                                <ShareIcon />
+                            </Button>
+                        </div>
+                    </div>
                 </Form>
             </Card>
             {addedLinks.length !== 0 && (

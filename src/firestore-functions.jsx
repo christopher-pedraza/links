@@ -21,12 +21,14 @@ export const getDocumentLinks = async (collectionName = "links", id) => {
 };
 
 // Function to create a document with a provided array of strings
-export const createDocumentWithArray = async (
+export const createDocument = async (
     collectionName = "links",
+    name,
     arrayData
 ) => {
     try {
         const docRef = await addDoc(collection(db, collectionName), {
+            name,
             links: arrayData,
         });
         return docRef.id;
