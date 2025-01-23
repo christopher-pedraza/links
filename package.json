@@ -10,6 +10,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@firebase/app-check": "^0.8.11",
         "@nextui-org/react": "^2.6.11",
         "firebase": "^11.1.0",
         "framer-motion": "^11.16.1",
