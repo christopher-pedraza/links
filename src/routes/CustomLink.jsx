@@ -21,10 +21,6 @@ export default function CustomLink() {
         }
     }, [params.id]);
 
-    useEffect(() => {
-        console.log(links);
-    }, [links]);
-
     if (!links) {
         return (
             <div className="h-screen w-screen flex items-center justify-center">
