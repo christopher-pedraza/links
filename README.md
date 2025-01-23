@@ -9,7 +9,7 @@ This project is a simple and efficient web application that allows users to comp
 ## Features
 
 1. **Customizable Link Name**:
-    - Optionally provide a name for your list link (e.g., `https://your-domain.github.io/links/{custom_name}`).
+    - Optionally provide a name for your list link (e.g., `https://christopher-pedraza.github.io/links/{custom_name}`).
     - If no name is provided, a random combination of five characters (letters and digits) will be used.
 2. **URL Management**:
     - Add links one by one to your list using a dedicated text box.
