@@ -14,11 +14,11 @@ const firebaseConfig = {
 const configuration = initializeApp(firebaseConfig);
 const db = getFirestore(configuration);
 
-const appCheck = initializeAppCheck(app, {
+const appCheck = initializeAppCheck(configuration, {
     provider: new ReCaptchaV3Provider(
         "6LcHScAqAAAAAPm8C1Pfl-cH00nN4380RQi3OxRF"
     ),
     isTokenAutoRefreshEnabled: true,
 });
 
-export { configuration, db };
+export { appCheck, configuration, db };
