@@ -7,6 +7,8 @@ import {
     addDoc,
     getDocs,
     deleteDoc,
+    query,
+    where,
 } from "firebase/firestore";
 
 // Function to retrieve a specific document by ID
