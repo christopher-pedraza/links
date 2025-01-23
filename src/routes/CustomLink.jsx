@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router";
 
-import { getDocumentLinks } from "../firestore-functions";
+import { getLinksByName } from "../firestore-functions";
 
 import { useEffect, useState } from "react";
 
@@ -15,7 +15,10 @@ export default function CustomLink() {
 
     useEffect(() => {
         if (params.id) {
-            getDocumentLinks("links", params.id).then((doc) => {
+            // getDocumentLinks("links", params.id).then((doc) => {
+            //     setLinks(doc);
+            // });
+            getLinksByName("links", params.id).then((doc) => {
                 setLinks(doc);
             });
         }

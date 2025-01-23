@@ -20,6 +20,24 @@ export const getDocumentLinks = async (collectionName = "links", id) => {
     }
 };
 
+export const checkIfNameAvailable = async (collectionName = "links", name) => {
+    const collectionRef = collection(db, collectionName);
+    const q = query(collectionRef, where("name", "==", name));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.empty;
+};
+
+// Get document based on the field "name"
+export const getLinksByName = async (collectionName = "links", name) => {
+    const collectionRef = collection(db, collectionName);
+    const q = query(collectionRef, where("name", "==", name));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        return null;
+    }
+    return querySnapshot.docs[0].data()["links"];
+};
+
 // Function to create a document with a provided array of strings
 export const createDocument = async (
     collectionName = "links",

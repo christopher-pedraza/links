@@ -1,7 +1,7 @@
 import { Card, Form, Input, Button, Divider } from "@nextui-org/react";
 import { useState, useRef } from "react";
 import { CrossIcon, ShareIcon } from "@/assets/Icons";
-import { createDocument } from "@/firestore-functions";
+import { createDocument, checkIfNameAvailable } from "@/firestore-functions";
 import { useNavigate } from "react-router";
 
 export default function Home() {
@@ -34,14 +34,28 @@ export default function Home() {
 
     const shareLinks = async () => {
         setIsSharing(true);
-        createDocument("links", name, addedLinks).then((id) => {
-            if (!id) {
-                // TODO: Show error message to the user
-                setIsSharing(false);
-                return;
-            }
-            navigate(`/${id}`);
-        });
+        if (addedLinks.length === 0) {
+            setIsSharing(false);
+            return;
+        }
+        if (!name) {
+            setIsSharing(false);
+            return;
+        }
+        const isAvailable = await checkIfNameAvailable("links", name);
+        if (!isAvailable) {
+            setIsSharing(false);
+            return;
+        } else {
+            createDocument("links", name, addedLinks).then((id) => {
+                if (!id) {
+                    // TODO: Show error message to the user
+                    setIsSharing(false);
+                    return;
+                }
+                navigate(`/${name}`);
+            });
+        }
     };
 
     const sanitizeName = (name) => {
