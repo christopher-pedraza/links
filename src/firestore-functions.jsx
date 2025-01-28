@@ -36,7 +36,7 @@ export const getLinksByName = async (collectionName = "links", name) => {
     const querySnapshot = await getDocs(q);
     console.log("querySnapshot", querySnapshot);
     if (querySnapshot.empty) {
-        return null;
+        new Error("No documents found with the name " + name);
     }
     console.log(
         'querySnapshot.docs[0].data()["links"]',
