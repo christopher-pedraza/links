@@ -14,12 +14,15 @@ export default function CustomLink() {
     const [links, setLinks] = useState(null);
 
     useEffect(() => {
+        console.log(params.id);
         if (params.id) {
             getLinksByName("links", params.id)
                 .then((doc) => {
+                    console.log("Then");
                     setLinks(doc);
                 })
                 .catch(() => {
+                    console.log("Catch");
                     navigate("/");
                 });
         }
