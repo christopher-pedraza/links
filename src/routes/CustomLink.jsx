@@ -15,14 +15,19 @@ export default function CustomLink() {
 
     useEffect(() => {
         if (params.id) {
-            // getDocumentLinks("links", params.id).then((doc) => {
-            //     setLinks(doc);
-            // });
-            getLinksByName("links", params.id).then((doc) => {
-                setLinks(doc);
-            });
+            getLinksByName("links", params.id)
+                .then((doc) => {
+                    setLinks(doc);
+                })
+                .catch(() => {
+                    navigate("/");
+                });
         }
     }, [params.id]);
+
+    useEffect(() => {
+        console.log(links);
+    }, [links]);
 
     if (!links) {
         return (

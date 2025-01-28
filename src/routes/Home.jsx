@@ -41,14 +41,21 @@ export default function Home() {
 
     const uploadDocument = async (name) => {
         sanitizeName(name);
-        createDocument("links", name, addedLinks).then((id) => {
-            if (!id) {
+        createDocument("links", name, addedLinks)
+            .then((id) => {
+                if (!id) {
+                    showErrorMessage(
+                        "An error occurred while sharing the links."
+                    );
+                    setIsSharing(false);
+                    return;
+                }
+                navigate(`/${name}`);
+            })
+            .catch(() => {
                 showErrorMessage("An error occurred while sharing the links.");
                 setIsSharing(false);
-                return;
-            }
-            navigate(`/${name}`);
-        });
+            });
     };
 
     const shareLinks = async () => {
@@ -59,15 +66,22 @@ export default function Home() {
             return;
         }
         if (name) {
-            checkIfNameAvailable("links", name).then((isAvailable) => {
-                if (!isAvailable) {
-                    showErrorMessage("Name is not available.");
+            checkIfNameAvailable("links", name)
+                .then((isAvailable) => {
+                    if (!isAvailable) {
+                        showErrorMessage("Name is not available.");
+                        setIsSharing(false);
+                        return;
+                    } else {
+                        uploadDocument(name);
+                    }
+                })
+                .catch(() => {
+                    showErrorMessage(
+                        "An error occurred while sharing the links."
+                    );
                     setIsSharing(false);
-                    return;
-                } else {
-                    uploadDocument(name);
-                }
-            });
+                });
         } else {
             const generatedName = generateValidName();
             uploadDocument(generatedName);
@@ -120,6 +134,7 @@ export default function Home() {
                             size="md"
                             value={name}
                             onValueChange={sanitizeName}
+                            type="text"
                         />
                         <Divider
                             orientation="horizontal"
@@ -137,6 +152,7 @@ export default function Home() {
                                 size="md"
                                 value={url}
                                 onValueChange={setURL}
+                                type="url"
                             />
                             <div className="flex flex-row ml-0 sm:ml-2 mt-2 sm:mt-0 justify-center items-center">
                                 <Button
