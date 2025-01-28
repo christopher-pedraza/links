@@ -34,11 +34,14 @@ export const getLinksByName = async (collectionName = "links", name) => {
     const collectionRef = collection(db, collectionName);
     const q = query(collectionRef, where("name", "==", name));
     const querySnapshot = await getDocs(q);
-    console.log(querySnapshot);
+    console.log("querySnapshot", querySnapshot);
     if (querySnapshot.empty) {
         return null;
     }
-    console.log(querySnapshot.docs[0].data()["links"]);
+    console.log(
+        'querySnapshot.docs[0].data()["links"]',
+        querySnapshot.docs[0].data()["links"]
+    );
     return querySnapshot.docs[0].data()["links"];
 };
 
