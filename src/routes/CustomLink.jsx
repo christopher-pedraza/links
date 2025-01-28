@@ -42,11 +42,6 @@ export default function CustomLink() {
 
     if (links.length === 0) {
         navigate("/");
-        return (
-            <div className="h-screen w-screen flex items-center justify-center">
-                <l-bouncy size="90" speed="1.75" color="#4287f5"></l-bouncy>
-            </div>
-        );
     }
 
     return (
