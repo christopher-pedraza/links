@@ -51,6 +51,10 @@ This project is a simple and efficient web application that allows users to comp
 -   Automatically copy the shareable page link to the clipboard after creation.
 -   Include a "Download All Links" button on the shared page to export all links as a `.txt` file.
 
+## Known Issues
+
+-   When entering a non-existent link, the page simply remains blank instead of redirecting you to the homepage.
+
 ## Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/christopher-pedraza/links/issues) or open a [pull request](https://github.com/christopher-pedraza/links/pulls).
