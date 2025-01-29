@@ -24,6 +24,9 @@ export default function Home() {
     const onSubmit = (e) => {
         e.preventDefault();
         let urlValue = e.target.url.value;
+        if (urlValue === "") {
+            return;
+        }
         if (!urlValue.match(/^(http|https):\/\//)) {
             urlValue = "https://" + urlValue;
         } else if (!urlValue) {
