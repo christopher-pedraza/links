@@ -5,6 +5,7 @@ import { createDocument, checkIfNameAvailable } from "@/firestore-functions";
 import { useNavigate } from "react-router";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { li } from "framer-motion/client";
 
 export default function Home() {
     const [addedLinks, setAddedLinks] = useState([]);
@@ -163,6 +164,7 @@ export default function Home() {
                                     type="submit"
                                     variant="bordered"
                                     className="mr-2"
+                                    isDisabled={!url}
                                 >
                                     Add link
                                 </Button>
@@ -173,6 +175,7 @@ export default function Home() {
                                     color="primary"
                                     onPress={shareLinks}
                                     isLoading={isSharing}
+                                    isDisabled={addedLinks.length === 0}
                                 >
                                     <ShareIcon />
                                 </Button>
